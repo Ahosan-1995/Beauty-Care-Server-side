@@ -33,6 +33,11 @@ async function run() {
 
     const allDataCollection=client.db('assignment11DB').collection('assignment11');
 
+
+    const purchaseCollection=client.db('assignment11DB').collection('purchaseDB');
+
+
+
     app.get('/assignment', async(req,res)=>{
         const cursor = allDataCollection.find()
         const results = await cursor.toArray();
@@ -49,8 +54,22 @@ async function run() {
 
 
 
+    // Bellow section only for purchase collection................................
+
+    app.post('/add_purchase',async(req,res)=>{
+        const allData = req.body;
+        console.log(allData);
+    
+        const result = await purchaseCollection.insertOne(allData);
+        res.send(result);
+    })
 
 
+    app.get('/add_purchase', async(req,res)=>{
+        const cursor = purchaseCollection.find()
+        const results = await cursor.toArray();
+        res.send(results);
+    })
 
 
 
