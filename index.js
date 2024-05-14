@@ -71,6 +71,37 @@ async function run() {
         res.send(result);
     })
 
+    app.delete('/assignment/:id', async(req,res)=>{
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)};
+        const result = allDataCollection.deleteOne(query);
+        res.send(result);
+    })
+
+
+
+    // Update
+    app.put('/assignment/:id', async(req,res)=>{
+        const id=req.params.id;
+        const filter = {_id: new ObjectId(id)};
+        const options = {upsert: true};
+        const updatedUser=req.body;
+        const user = {
+            $set:{
+                service_name:updatedUser.service_name,
+                service_image:updatedUser.service_image,
+                price:updatedUser.price,
+                service_area:updatedUser.service_area,
+                service_description:updatedUser.service_description,
+                email:updatedUser.email,
+                provider_name:updatedUser.provider_name,
+                provider_imageURL:updatedUser.provider_imageURL,
+            }
+        }
+        const result = await allDataCollection.updateOne(filter, user,options);
+        res.send(result);
+    })
+
 
 
 
