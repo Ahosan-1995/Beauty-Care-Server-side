@@ -53,6 +53,26 @@ async function run() {
     })
 
 
+    // Get all data related to email
+    app.get('/assignmentemail/:email', async(req,res)=>{
+        const email = req.params.email;
+        const query = {email:email}
+        const cursor = await allDataCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+    })
+
+
+    app.post('/assignment',async(req,res)=>{
+        const allData = req.body;
+        console.log(allData);
+    
+        const result = await allDataCollection.insertOne(allData);
+        res.send(result);
+    })
+
+
+
 
     // Bellow section only for purchase collection................................
 
