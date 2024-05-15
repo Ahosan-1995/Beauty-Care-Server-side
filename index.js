@@ -124,6 +124,40 @@ async function run() {
 
 
 
+    app.get('/add_purchase/:email', async(req,res)=>{
+        const email = req.params.email;
+        const query = {email:email}
+        const cursor = await purchaseCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+    })
+
+
+
+    app.get('/add_purchase/:id', async(req,res)=>{
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)}
+        const result = await purchaseCollection.findOne(query);
+        res.send(result);
+    })
+
+
+    app.patch('/add_purchase/:id', async(req,res)=>{
+        const id = req.params.id;
+        filter={_id: new ObjectId(id)}
+        const updatedPurchase = req.body;
+        console.log(updatedPurchase);
+        const updatedDoc={
+            $set:{
+                pending: updatedPurchase.status
+            },
+        };
+        const result = await purchaseCollection.updateOne(filter,updatedDoc);
+        res.send(result);
+    })
+
+
+
 
 
 
