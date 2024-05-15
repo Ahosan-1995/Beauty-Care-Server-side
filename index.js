@@ -2,7 +2,20 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
-app.use(cors());
+app.use(cors({
+    origin:[
+        "http://localhost:5173",
+        "https://assignment-11-120a0.web.app",
+        "https://assignment-11-120a0.firebaseapp.com",
+
+    ],
+    credentials:true,
+
+}));
+
+
+
+
 app.use(express.json());
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 // Above are basic setup
@@ -28,7 +41,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
 
     const allDataCollection=client.db('assignment11DB').collection('assignment11');
@@ -165,7 +178,7 @@ async function run() {
 
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
